@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/main.dart';
-import 'package:whatsapp_clone/pages/calls_screen.dart';
-import 'package:whatsapp_clone/pages/camera_screen.dart';
-import 'package:whatsapp_clone/pages/chat_screen.dart';
-import 'package:whatsapp_clone/pages/status_screen.dart';
+import 'package:whatsapp_clone/home/calls_screen.dart';
+import 'package:whatsapp_clone/home/camera_screen.dart';
+import 'package:whatsapp_clone/home/chat_screen.dart';
+import 'package:whatsapp_clone/home/status_screen.dart';
 
 class WhatsAppHome extends StatefulWidget {
   const WhatsAppHome({Key? key}) : super(key: key);
@@ -24,7 +24,6 @@ class _WhatsAppHomeState extends State<WhatsAppHome>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: darker,
       appBar: AppBar(
         title: const Text(
           'WhatsApp',
@@ -41,21 +40,14 @@ class _WhatsAppHomeState extends State<WhatsAppHome>
             Tab(
               icon: Icon(Icons.camera_alt),
             ),
-            Tab(text: 'CHATS'),
+            Tab(text: 'CHATS',),
             Tab(text: 'STATUS'),
             Tab(text: 'CALLS'),
           ],
         ),
-        actions: const <Widget>[
-          Icon(
-            Icons.search,
-            color: grey,
-          ),
-          Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-          Icon(
-            Icons.more_vert,
-            color: grey,
-          ),
+        actions: <Widget>[
+          IconButton(onPressed: (){}, icon: const Icon(Icons.search, color: grey,), splashRadius: 20.0,),
+          IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert, color: grey,), splashRadius: 20.0,),
         ],
       ),
       body: TabBarView(
@@ -66,11 +58,6 @@ class _WhatsAppHomeState extends State<WhatsAppHome>
           StatusScreen(),
           CallsScreen(),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: accent,
-        child: const Icon(Icons.comment),
-        onPressed: () {},
       ),
     );
   }
