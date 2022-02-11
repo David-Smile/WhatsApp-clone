@@ -4,8 +4,9 @@ class ChatModel {
   final String? time;
   final String? image;
   final MessagesStatus? messagesStatus;
+  final int? messageCount;
 
-  ChatModel({this.name, this.message, this.time, this.image, this.messagesStatus});
+  ChatModel({this.name, this.message, this.time, this.image, this.messagesStatus, this.messageCount});
 }
 
 List<ChatModel> dummyData = [
@@ -15,6 +16,7 @@ List<ChatModel> dummyData = [
       time: '11:50 am',
       image: 'assets/Ellipse.png',
       messagesStatus: MessagesStatus.unread,
+    messageCount: 4,
   ),
   ChatModel(
       name: 'Samuel Jackson',
@@ -29,6 +31,7 @@ List<ChatModel> dummyData = [
       time: '12:03 pm',
       image: 'assets/Ellipse3.png',
       messagesStatus: MessagesStatus.unread,
+    messageCount: 6,
   ),
   ChatModel(
       name: 'Coach Paul',
@@ -36,18 +39,23 @@ List<ChatModel> dummyData = [
       time: '01:10 pm',
       image: 'assets/Ellipse4.png',
       messagesStatus: MessagesStatus.unread,
+    messageCount: 3,
   ),
   ChatModel(
       name: 'Bella Cruz',
       message: 'Cash received, coupon wil be sent',
       time: '12:10 pm',
-      image: 'assets/Ellipse5.png'),
+      image: 'assets/Ellipse5.png',
+      messagesStatus: MessagesStatus.unread,
+      messageCount: 1,
+  ),
   ChatModel(
       name: 'Micholo Brian',
       message: 'Have you upgraded your flutter?',
       time: '02:10 pm',
       image: 'assets/Ellipse6.png',
       messagesStatus: MessagesStatus.unread,
+      messageCount: 2
   ),
   ChatModel(
       name: 'Duru Design',
@@ -55,6 +63,7 @@ List<ChatModel> dummyData = [
       time: '03:00 pm',
       image: 'assets/Ellipse10.png',
       messagesStatus: MessagesStatus.unread,
+      messageCount: 5,
   ),
   ChatModel(
       name: 'Steve Ben',
@@ -69,6 +78,7 @@ List<ChatModel> dummyData = [
       time: '03:10 pm',
       image: 'assets/Ellipse8.png',
       messagesStatus: MessagesStatus.unread,
+      messageCount: 3,
   ),
 ];
 

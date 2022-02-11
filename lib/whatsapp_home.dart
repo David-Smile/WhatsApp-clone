@@ -5,6 +5,8 @@ import 'package:whatsapp_clone/home/camera_screen.dart';
 import 'package:whatsapp_clone/home/chat_screen.dart';
 import 'package:whatsapp_clone/home/status_screen.dart';
 
+import 'model/chat_model.dart';
+
 class WhatsAppHome extends StatefulWidget {
   const WhatsAppHome({Key? key}) : super(key: key);
 
@@ -15,15 +17,31 @@ class WhatsAppHome extends StatefulWidget {
 class _WhatsAppHomeState extends State<WhatsAppHome>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
+  int count = 0;
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this, initialIndex: 1);
+
+    chatCount();
+  }
+
+  chatCount() {
+    for(ChatModel chat in dummyData) {
+      if(chat.messagesStatus == MessagesStatus.unread){
+        count ++;
+      }
+    }
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: darker,
       appBar: AppBar(
         title: const Text(
           'WhatsApp',
@@ -36,13 +54,24 @@ class _WhatsAppHomeState extends State<WhatsAppHome>
           indicatorColor: accent,
           labelColor: accent,
           unselectedLabelColor: Colors.grey,
-          tabs: const <Widget>[
-            Tab(
+          tabs: <Widget>[
+            const Tab(
               icon: Icon(Icons.camera_alt),
             ),
-            Tab(text: 'CHATS',),
-            Tab(text: 'STATUS'),
-            Tab(text: 'CALLS'),
+            Tab(child: Row(children: [
+              const Text('CHAT'),
+              const SizedBox(width: 2.0,),
+              Container(
+              width: 20.0,
+              height: 20.0,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0), color: accent ),
+                child: Center(child: Text('$count', style: TextStyle(fontSize: 10, color: Colors.white),)),
+              ),
+            ],
+            ),
+            ),
+            const Tab(text: 'STATUS'),
+            const Tab(text: 'CALLS'),
           ],
         ),
         actions: <Widget>[

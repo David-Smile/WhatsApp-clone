@@ -3,6 +3,8 @@ import 'package:whatsapp_clone/main.dart';
 import 'package:whatsapp_clone/model/chat_model.dart';
 import 'dart:math';
 
+import '../pages/chat_page.dart';
+
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
 
@@ -11,6 +13,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +26,10 @@ class _ChatScreenState extends State<ChatScreen> {
               height: 10.0,
             ),
             ListTile(
+              onTap: (){Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  ChatPage(user: dummyData[i].name!, userDp: dummyData[i].image!,)),
+              );},
               leading: CircleAvatar(
                 foregroundColor: grey,
                 backgroundColor: dark,
@@ -36,10 +43,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   ),
-                  Text(
-                    dummyData[i].time!,
-                    style: const TextStyle(color: grey, fontSize: 14.0),
-                  ),
                 ],
               ),
               subtitle: Container(
@@ -47,16 +50,30 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Text(
                   dummyData[i].message!,
                   style: const TextStyle(color: grey, fontSize: 14.0),
+                  maxLines: 1,
                 ),
               ),
-              trailing: Visibility(
-                visible: dummyData[i].messagesStatus == MessagesStatus.unread ? true:false,
-                child: Container(
-                  width: 20.0,
-                  height: 20.0,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0), color: accent ),
-                  child: Center(child: Text('${Random().nextInt(10)+1}')),
-                ),
+              trailing: Column(
+                children: [
+                  Text(
+                    dummyData[i].time!,
+                    style: TextStyle(color: dummyData[i].messagesStatus == MessagesStatus.unread ? accent:grey, fontSize: 10.0),
+                  ),
+                  Visibility(
+                    visible: dummyData[i].messagesStatus == MessagesStatus.unread ? true:false,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10.0,),
+                        Container(
+                          width: 20.0,
+                          height: 20.0,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0), color: accent ),
+                          child: Center(child: Text('${Random().nextInt(10)+1}')),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
