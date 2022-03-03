@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:bubble/bubble.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_clone/main.dart';
 import 'package:whatsapp_clone/model/conversation_model.dart';
@@ -14,6 +17,10 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+
+  bool showEmoji = false;
+  TextEditingController textInput = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,16 +65,16 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 20.0, left: 10.0, right: 10.0),
-        child: Column(
-          children: [
-            Flexible(
-              child: ListView.builder(
-                  itemCount: dummyData.length,
-                  itemBuilder: (context, i) {
-                    ConversationModel message = dummyData[i];
-                    return Column(
+      body: Column(
+        children: [
+          Flexible(
+            child: ListView.builder(
+                itemCount: dummyData.length,
+                itemBuilder: (context, i) {
+                  ConversationModel message = dummyData[i];
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
                       children: [
                         Bubble(
                           margin: const BubbleEdges.only(top: 10),
@@ -87,8 +94,8 @@ class _ChatPageState extends State<ChatPage> {
                               Padding(
                                 padding: dummyData[i].messagesType ==
                                         MessagesType.sender
-                                    ? EdgeInsets.only(right: 25.0)
-                                    : EdgeInsets.only(left: 5, right: 30),
+                                    ? const EdgeInsets.only(right: 25.0)
+                                    : const EdgeInsets.only(left: 5, right: 30),
                                 child: Text(
                                   dummyData[i].message!,
                                   textAlign: TextAlign.right,
@@ -112,10 +119,13 @@ class _ChatPageState extends State<ChatPage> {
                           ),
                         ),
                       ],
-                    );
-                  }),
-            ),
-            Row(
+                    ),
+                  );
+                }),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+            child: Row(
               children: [
                 Container(
                   height: 41,
@@ -125,18 +135,22 @@ class _ChatPageState extends State<ChatPage> {
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showEmoji = !showEmoji;
+                          setState(() {});
+                        },
                         icon: const Icon(
                           Icons.emoji_emotions,
                           color: grey,
                         ),
                       ),
-                      const Flexible(
+                      Flexible(
                         child: TextField(
-                          style: TextStyle(color: Colors.white),
+                          controller:  textInput,
+                          style: const TextStyle(color: Colors.white),
                           cursorColor: accent,
                           expands: false,
-                          decoration: InputDecoration.collapsed(
+                          decoration: const InputDecoration.collapsed(
                               hintText: 'Message',
                               hintStyle: TextStyle(color: grey)),
                         ),
@@ -176,8 +190,44 @@ class _ChatPageState extends State<ChatPage> {
                 )
               ],
             ),
-          ],
-        ),
+          ),
+
+          Visibility(
+            visible: showEmoji,
+            child: SizedBox(
+              height: 250,
+              child: EmojiPicker(
+                onEmojiSelected: (Category category, Emoji emoji) {
+                  textInput.text += emoji.emoji;
+                },
+                config: Config(
+                    columns: 7,
+                    emojiSizeMax: 25 * (Platform.isIOS ? 1.30 : 1.0), // Issue: https://github.com/flutter/flutter/issues/28894
+                    verticalSpacing: 0,
+                    horizontalSpacing: 0,
+                    initCategory: Category.RECENT,
+                    bgColor: dark,
+                    indicatorColor: Colors.white,
+                    iconColor: Colors.grey,
+                    iconColorSelected: Colors.white,
+                    progressIndicatorColor: Colors.blue,
+                    backspaceColor: Colors.blue,
+                    skinToneDialogBgColor: Colors.white,
+                    skinToneIndicatorColor: Colors.grey,
+                    enableSkinTones: true,
+                    showRecentsTab: true,
+                    recentsLimit: 28,
+                    noRecentsText: "No Recents",
+                    noRecentsStyle:
+                    const TextStyle(fontSize: 20, color: Colors.black26),
+                    tabIndicatorAnimDuration: kTabScrollDuration,
+                    categoryIcons: const CategoryIcons(),
+                    buttonMode: ButtonMode.MATERIAL
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
